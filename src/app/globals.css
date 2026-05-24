@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --background:    #fbf9f6;
+  --foreground:    #3c3528;
+  --primary:       #9b8a6a;
+  --primary-dark:  #8c7b5b;
+  --primary-light: #b5a68c;
+  --muted:         #5a5040;
+  --card-text:     #7a6e5e;
+  --treatments-bg: #c8b89a;
+  --card-border:   #e8e0d4;
+}
+
+@theme inline {
+  --color-background:   var(--background);
+  --color-foreground:   var(--foreground);
+  --color-primary:      var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light:var(--primary-light);
+  --color-muted:        var(--muted);
+  --color-card-text:    var(--card-text);
+  --color-treatments:   var(--treatments-bg);
+  --color-card-border:  var(--card-border);
+  --font-serif: var(--font-playfair);
+  --font-sans:  var(--font-opensans);
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+*,*::before,*::after { box-sizing: border-box; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up   { animation: fadeUp   0.65s ease both; }
+.animate-fade-in   { animation: fadeIn   0.5s  ease both; }
+.animate-scale-in  { animation: scaleIn  0.5s  ease both; }
+.delay-100 { animation-delay: 0.10s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }
+
+/* ─── Hero ───────────────────────────────────────────────────── */
+.hero-title { text-shadow: 0 2px 16px rgba(0,0,0,0.22); }
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 32px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+.btn-outline-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.btn-outline-primary:hover { background: var(--primary); color: white; transform: translateY(-1px); }
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--foreground);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.btn-dark:hover { opacity: 0.85; transform: translateY(-1px); }
+
+/* ─── Nav ────────────────────────────────────────────────────── */
+.nav-link-hover {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 16px;
+  color: rgba(255,255,255,0.9);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s, background 0.2s;
+  position: relative;
+}
+.nav-link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 16px; right: 16px;
+  height: 2px;
+  background: white;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-link-hover:hover { color: white; }
+.nav-link-hover:hover::after { transform: scaleX(1); }
+
+/* ─── Cards ──────────────────────────────────────────────────── */
+.specialty-card {
+  background: white;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.specialty-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(60,53,40,0.10); }
+
+.specialty-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  transition: gap 0.2s ease, opacity 0.2s ease;
+}
+.specialty-card-link:hover { gap: 10px; opacity: 0.75; }
+
+/* ─── Treatment list ─────────────────────────────────────────── */
+.treatment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(60,53,40,0.14);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 400;
+  transition: padding-left 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+.treatment-item:hover { padding-left: 8px; opacity: 0.75; }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.footer-link {
+  font-size: 0.83rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.58);
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+.footer-link:hover { color: rgba(255,255,255,0.95); }
+
+/* ─── WhatsApp ───────────────────────────────────────────────── */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 50;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37,211,102,0.40);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.whatsapp-btn:hover {
+  transform: scale(1.10);
+  box-shadow: 0 10px 28px rgba(37,211,102,0.50);
+}
