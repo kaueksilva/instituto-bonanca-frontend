@@ -68,8 +68,8 @@ export function Sidebar() {
         >
           <div className="flex items-center">
             <div>
-              <div className="inline-block h-9 w-9 rounded-none bg-slate-800 items-center justify-center text-sm font-bold text-slate-300">
-                {user?.nome.charAt(0).toUpperCase() || "U"}
+              <div className="inline-flex h-9 w-9 rounded-none bg-slate-800 items-center justify-center text-sm font-bold text-slate-300">
+                {user?.nome?.charAt(0).toUpperCase() || "U"}
               </div>
             </div>
             <div className="ml-3">
