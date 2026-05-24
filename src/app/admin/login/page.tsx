@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 
 const loginSchema = z.object({
@@ -15,10 +17,17 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, isAuthenticated, isLoading: authIsLoading } = useAuth();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authIsLoading && isAuthenticated) {
+      router.replace("/admin/dashboard");
+    }
+  }, [authIsLoading, isAuthenticated, router]);
 
   const {
     register,
@@ -30,7 +39,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      setIsLoading(true);
+      setIsSubmitting(true);
       setError("");
       await login({ email: data.email, senha: data.senha });
     } catch (err: unknown) {
@@ -39,7 +48,7 @@ export default function LoginPage() {
         err.response?.data?.message || "Erro ao conectar. Tente novamente."
       );
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -121,10 +130,10 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-none shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
             >
-              {isLoading ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="animate-spin -ml-1 mr-2 h-4 w-4" />
                   Entrando...

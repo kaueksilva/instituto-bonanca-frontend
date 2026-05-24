@@ -15,6 +15,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const clearAuthCookie = () => {
+  document.cookie = 'is_authenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,12 +28,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const checkAuth = async () => {
       const token = localStorage.getItem('access_token');
       if (!token) {
+        clearAuthCookie();
         setUser(null);
         setIsLoading(false);
         return;
       }
-
-      setIsLoading(false);
 
       try {
         const userData = await authService.me();
@@ -37,16 +40,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error('Failed to fetch user data:', error);
         localStorage.removeItem('access_token');
+        clearAuthCookie();
         setUser(null);
-
-        if (window.location.pathname.startsWith('/admin') && !window.location.pathname.startsWith('/admin/login')) {
-          router.replace('/admin/login');
-        }
+        router.replace('/admin/login');
+      } finally {
+        setIsLoading(false);
       }
     };
 
     checkAuth();
-  }, []);
+  }, [router]);
 
   const login = async (credentials: LoginCredentials) => {
     const { user } = await authService.login(credentials);
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await authService.logout();
     } finally {
       setUser(null);
-      document.cookie = `is_authenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+      clearAuthCookie();
       router.push('/admin/login');
     }
   };

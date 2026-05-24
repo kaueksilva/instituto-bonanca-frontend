@@ -15,12 +15,9 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // If already authenticated and trying to access login, redirect to dashboard
+  // Let the login page decide whether the user should be redirected.
   if (path.startsWith('/admin/login')) {
-    const isAuthenticated = request.cookies.get('is_authenticated')?.value;
-    if (isAuthenticated) {
-      return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
