@@ -72,12 +72,8 @@ export default function Footer() {
           <h4 className="mb-6 font-bold text-xs tracking-[0.15em] uppercase font-sans text-primary-light">ENDEREÇOS</h4>
           <ul className="space-y-5">
             <li className="text-sm font-light font-sans text-white/60 leading-relaxed">
-              <span className="font-semibold text-white/80 block mb-1">Unidade Boa Viagem</span>
-              Av. Conselheiro Aguiar, 2925<br />Recife-PE, 51020-020
-            </li>
-            <li className="text-sm font-light font-sans text-white/60 leading-relaxed">
-              <span className="font-semibold text-white/80 block mb-1">Unidade Pindaíba</span>
-              R. Servilha, Pq Reboças – 18, sala<br />Teresina-PI Distrito – Pindaíba
+              <span className="font-semibold text-white/80 block mb-1">Instituto Bonança</span>
+              Rua Ribeirão Preto, 54.783-440<br />Bairro: Aldeia dos Camarás<br />Camaragibe-PE
             </li>
           </ul>
         </div>
